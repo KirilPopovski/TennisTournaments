@@ -35,6 +35,7 @@ namespace TennisTournaments
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IPlayersService, PlayersService>();
+            services.AddTransient<ITournamentsService, TournamentsService>();
             //services.AddSwaggerGen(c =>
             //{
               //  c.SwaggerDoc("v1", new OpenApiInfo { Title = "TennisTournaments", Version = "v1" });
