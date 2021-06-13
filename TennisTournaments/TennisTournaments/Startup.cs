@@ -19,6 +19,7 @@ namespace TennisTournaments
 {
     public class Startup
     {
+        //readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,17 +30,16 @@ namespace TennisTournaments
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IPlayersService, PlayersService>();
             services.AddTransient<ITournamentsService, TournamentsService>();
-            //services.AddSwaggerGen(c =>
-            //{
-              //  c.SwaggerDoc("v1", new OpenApiInfo { Title = "TennisTournaments", Version = "v1" });
-            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,8 +48,6 @@ namespace TennisTournaments
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseSwagger();
-                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TennisTournaments v1"));
             }
 
             app.UseHttpsRedirection();
@@ -57,6 +55,11 @@ namespace TennisTournaments
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {
