@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import './Players.css';
 
 class Players extends Component {
     constructor(props) {
@@ -41,13 +42,17 @@ class Players extends Component {
             return <div>Loading...</div>;
         } else {
             return (
-                <ul>
+                <div>
                     {players.map(player => (
-                        <li key={player.firstName}>
-                            {player.firstName} {player.lastName} {player.gender}
-                        </li>
+                        <div class="card">
+                        <img src="img_avatar.png" alt="Avatar" />
+                        <div class="container">
+                          <h4><b>{player.firstName} {player.lastName}</b></h4>
+                          <p>{player.gender}</p>
+                        </div>
+                      </div>
                     ))}
-                </ul>
+                </div>
             );
         }
     }
